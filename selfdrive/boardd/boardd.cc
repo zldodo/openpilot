@@ -301,7 +301,7 @@ bool send_panda_state(PubMaster *pm, Panda *panda, bool spoofing_started) {
   ps[0].setPandaType(panda->hw_type);
   ps[0].setSafetyModel(cereal::CarParams::SafetyModel(pandaState.safety_model));
   ps[0].setSafetyParam(pandaState.safety_param);
-  ps[0].setFaultStatus(cereal::PandaState::FaultStatus(pandaState.fault_status));
+  //ps[0].setFaultStatus(cereal::PandaState::FaultStatus(pandaState.fault_status));
   ps[0].setPowerSaveEnabled((bool)(pandaState.power_save_enabled));
   ps[0].setHeartbeatLost((bool)(pandaState.heartbeat_lost));
   ps[0].setHarnessStatus(cereal::PandaState::HarnessStatus(pandaState.car_harness_status));
@@ -313,7 +313,7 @@ bool send_panda_state(PubMaster *pm, Panda *panda, bool spoofing_started) {
   size_t i = 0;
   for (size_t f = size_t(cereal::PandaState::FaultType::RELAY_MALFUNCTION);
       f <= size_t(cereal::PandaState::FaultType::INTERRUPT_RATE_TICK); f++) {
-    if (fault_bits.test(f)) {
+    if (fault_bits.test(f) && f != size_t(cereal::PandaState::FaultType::RELAY_MALFUNCTION)) {
       faults.set(i, cereal::PandaState::FaultType(f));
       i++;
     }
