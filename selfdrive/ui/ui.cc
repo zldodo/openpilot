@@ -348,7 +348,7 @@ void Device::updateBrightness(const UIState &s) {
 
   int brightness = brightness_filter.update(clipped_brightness);
   if (!awake) {
-    brightness = BACKLIGHT_OFFROAD;
+    brightness = 0;
   }
 
   if (brightness != last_brightness) {
@@ -360,7 +360,7 @@ void Device::updateBrightness(const UIState &s) {
 void Device::updateWakefulness(const UIState &s) {
   awake_timeout = std::max(awake_timeout - 1, 0);
 
-  bool should_wake = s.scene.started || s.scene.ignition;
+  bool should_wake = true;
   if (!should_wake) {
     // tap detection while display is off
     bool accel_trigger = abs(s.scene.accel_sensor - accel_prev) > 0.2;
