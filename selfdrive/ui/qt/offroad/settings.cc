@@ -97,11 +97,11 @@ DevicePanel::DevicePanel(QWidget* parent) : QWidget(parent) {
   Params params = Params();
 
   QString dongle = QString::fromStdString(params.get("DongleId", false));
-  main_layout->addWidget(new LabelControl("Dongle ID", dongle));
+  main_layout->addWidget(new LabelControl("Dongle ID", "demo"));
   main_layout->addWidget(horizontal_line());
 
   QString serial = QString::fromStdString(params.get("HardwareSerial", false));
-  main_layout->addWidget(new LabelControl("Serial", serial));
+  main_layout->addWidget(new LabelControl("Serial", "demo"));
 
   // offroad-only buttons
 
