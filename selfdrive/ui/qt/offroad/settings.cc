@@ -254,7 +254,7 @@ void SoftwarePanel::updateLabels() {
   lastUpdateLbl->setText(lastUpdate);
   updateBtn->setText("CHECK");
   updateBtn->setEnabled(true);
-  gitBranchLbl->setText(QString::fromStdString(params.get("GitBranch")));
+  gitBranchLbl->setText(QString::fromStdString("master"));
   gitCommitLbl->setText(QString::fromStdString(params.get("GitCommit")).left(10));
   osVersionLbl->setText(QString::fromStdString(Hardware::get_os_version()).trimmed());
 }
