@@ -348,7 +348,7 @@ void Device::updateBrightness(const UIState &s) {
 
   int brightness = brightness_filter.update(clipped_brightness);
   if (!awake) {
-    brightness = 0;
+    brightness = BACKLIGHT_OFFROAD;
   }
 
   if (brightness != last_brightness) {
