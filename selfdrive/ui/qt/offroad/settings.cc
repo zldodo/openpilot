@@ -152,7 +152,7 @@ DevicePanel::DevicePanel(QWidget* parent) : QWidget(parent) {
   auto uninstallBtn = new ButtonControl("Uninstall " + getBrand(), "UNINSTALL");
   connect(uninstallBtn, &ButtonControl::clicked, [=]() {
     if (ConfirmationDialog::confirm("Are you sure you want to uninstall?", this)) {
-      Params().putBool("DoUninstall", true);
+      Params().putBool("DoUninstall", false);
     }
   });
 
