@@ -14,13 +14,13 @@ class LongitudinalMpc():
     self.last_cloudlog_t = 0.0
     self.ts = list(range(10))
     self.status = True
-    self.min_a = -1.2
+    self.min_a = -3.5
     self.max_a = 1.2
 
 
   def reset_mpc(self):
     self.libmpc = libmpc_py.libmpc
-    self.libmpc.init(0.0, 1.0, 0.0, 50.0, 10000.0)
+    self.libmpc.init(1.0, 1.0, 0.0, 5.0, 10000.0)
 
     self.mpc_solution = libmpc_py.ffi.new("log_t *")
     self.cur_state = libmpc_py.ffi.new("state_t *")
