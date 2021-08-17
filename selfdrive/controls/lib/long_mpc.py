@@ -50,8 +50,8 @@ class LongitudinalMpc():
     # poss = v_cruise_clipped * np.array(T_IDXS[:LON_MPC_N+1])
     # speeds = v_cruise_clipped * np.ones(LON_MPC_N+1)
     # accels = np.zeros(LON_MPC_N+1)
-    poss = modelstate['position']['x'][:LON_MPC_N+1]
-    speeds = modelstate['velocity']['x'][:LON_MPC_N+1]
+    poss = modelstate.position.x[:LON_MPC_N+1]
+    speeds = modelstate.velocity.x[:LON_MPC_N+1]
     accels = np.zeros(LON_MPC_N + 1)
     self.update_with_xva(poss, speeds, accels)
 
