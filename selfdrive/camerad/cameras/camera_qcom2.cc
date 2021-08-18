@@ -24,7 +24,7 @@
 
 extern ExitHandler do_exit;
 
-const int GAIN_SWEEP_INTERVAL = 20;
+const int GAIN_SWEEP_INTERVAL = util::getenv("SWEEP_T", 0);
 
 const size_t FRAME_WIDTH = 1928;
 const size_t FRAME_HEIGHT = 1208;
