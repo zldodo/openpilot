@@ -24,6 +24,8 @@
 
 extern ExitHandler do_exit;
 
+const int GAIN_SWEEP_INTERVAL = 20;
+
 const size_t FRAME_WIDTH = 1928;
 const size_t FRAME_HEIGHT = 1208;
 const size_t FRAME_STRIDE = 2416;  // for 10 bit output
@@ -972,35 +974,42 @@ static void set_camera_exposure(CameraState *s, float grey_frac) {
     enable_dc_gain = false;
   }
 
-  // Simple brute force optimizer to choose sensor parameters
-  // to reach desired EV
-  for (int g = std::max((int)ANALOG_GAIN_MIN_IDX, s->gain_idx - 1); g <= std::min((int)ANALOG_GAIN_MAX_IDX, s->gain_idx + 1); g++) {
-    float gain = sensor_analog_gains[g] * (enable_dc_gain ? DC_GAIN : 1);
+  // iterate through all gains at startup
+  if (s->buf.cur_frame_data.frame_id < GAIN_SWEEP_INTERVAL*(ANALOG_GAIN_MAX_IDX - ANALOG_GAIN_MIN_IDX + 1)) {
+    new_g = s->buf.cur_frame_data.frame_id % GAIN_SWEEP_INTERVAL;
+    new_t = EXPOSURE_TIME_MIN;
+    enable_dc_gain = false;
+  } else {
+    // Simple brute force optimizer to choose sensor parameters
+    // to reach desired EV
+    for (int g = std::max((int)ANALOG_GAIN_MIN_IDX, s->gain_idx - 1); g <= std::min((int)ANALOG_GAIN_MAX_IDX, s->gain_idx + 1); g++) {
+      float gain = sensor_analog_gains[g] * (enable_dc_gain ? DC_GAIN : 1);
 
-    // Compute optimal time for given gain
-    int t = std::clamp(int(std::round(desired_ev / gain)), EXPOSURE_TIME_MIN, EXPOSURE_TIME_MAX);
+      // Compute optimal time for given gain
+      int t = std::clamp(int(std::round(desired_ev / gain)), EXPOSURE_TIME_MIN, EXPOSURE_TIME_MAX);
 
-    // Only go below recomended gain when absolutely necessary to not overexpose
-    if (g < ANALOG_GAIN_REC_IDX && t > 20 && g < s->gain_idx) {
-      continue;
-    }
+      // Only go below recomended gain when absolutely necessary to not overexpose
+      if (g < ANALOG_GAIN_REC_IDX && t > 20 && g < s->gain_idx) {
+        continue;
+      }
 
-    // Compute error to desired ev
-    float score = std::abs(desired_ev - (t * gain)) * 10;
+      // Compute error to desired ev
+      float score = std::abs(desired_ev - (t * gain)) * 10;
 
-    // Going below recomended gain needs lower penalty to not overexpose
-    float m = g > ANALOG_GAIN_REC_IDX ? 5.0 : 0.1;
-    score += std::abs(g - (int)ANALOG_GAIN_REC_IDX) * m;
+      // Going below recomended gain needs lower penalty to not overexpose
+      float m = g > ANALOG_GAIN_REC_IDX ? 5.0 : 0.1;
+      score += std::abs(g - (int)ANALOG_GAIN_REC_IDX) * m;
 
-    // LOGE("cam: %d - gain: %d, t: %d (%.2f), score %.2f, score + gain %.2f, %.3f, %.3f", s->camera_num, g, t, desired_ev / gain, score, score + std::abs(g - s->gain_idx) * (score + 1.0) / 10.0, desired_ev, s->min_ev);
+      // LOGE("cam: %d - gain: %d, t: %d (%.2f), score %.2f, score + gain %.2f, %.3f, %.3f", s->camera_num, g, t, desired_ev / gain, score, score + std::abs(g - s->gain_idx) * (score + 1.0) / 10.0, desired_ev, s->min_ev);
 
-    // Small penalty on changing gain
-    score += std::abs(g - s->gain_idx) * (score + 1.0) / 10.0;
+      // Small penalty on changing gain
+      score += std::abs(g - s->gain_idx) * (score + 1.0) / 10.0;
 
-    if (score < best_ev_score) {
-      new_t = t;
-      new_g = g;
-      best_ev_score = score;
+      if (score < best_ev_score) {
+        new_t = t;
+        new_g = g;
+        best_ev_score = score;
+      }
     }
   }
 
