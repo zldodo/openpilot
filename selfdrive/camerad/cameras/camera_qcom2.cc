@@ -976,7 +976,7 @@ static void set_camera_exposure(CameraState *s, float grey_frac) {
 
   // iterate through all gains at startup
   if (s->buf.cur_frame_data.frame_id < GAIN_SWEEP_INTERVAL*(ANALOG_GAIN_MAX_IDX - ANALOG_GAIN_MIN_IDX + 1)) {
-    new_g = s->buf.cur_frame_data.frame_id % GAIN_SWEEP_INTERVAL;
+    new_g = s->buf.cur_frame_data.frame_id / GAIN_SWEEP_INTERVAL;
     new_t = EXPOSURE_TIME_MIN;
     enable_dc_gain = false;
   } else {
