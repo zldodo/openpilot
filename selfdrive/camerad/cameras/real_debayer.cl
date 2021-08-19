@@ -52,7 +52,7 @@ half val_from_10(const uchar * source, int gx, int gy) {
   pv *= 0.00101833h; // /= (1024.0f - black_level);
 
   // correct vignetting
-  if (CAM_NUM == 1) { // fcamera
+  if (CAM_NUM == 99) { // fcamera
     gx = (gx - RGB_WIDTH/2);
     gy = (gy - RGB_HEIGHT/2);
     float r = gx*gx + gy*gy;
