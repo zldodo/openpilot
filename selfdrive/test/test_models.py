@@ -39,6 +39,9 @@ class TestCarModel(unittest.TestCase):
 
   @classmethod
   def setUpClass(cls):
+    if "KAROQ" not in cls.car_model:
+      raise unittest.SkipTest
+
     if cls.car_model not in ROUTES:
       # TODO: get routes for missing cars and remove this
       if cls.car_model in non_tested_cars:
@@ -52,8 +55,10 @@ class TestCarModel(unittest.TestCase):
         lr = LogReader(get_url(ROUTES[cls.car_model], seg))
         break
       except Exception:
-        if seg == 0:
-          raise
+        lr = None
+
+    if lr is None:
+      raise Exception("Route not uploaded")
 
     can_msgs = []
     fingerprint = {i: dict() for i in range(3)}
