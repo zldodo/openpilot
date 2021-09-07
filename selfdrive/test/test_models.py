@@ -57,8 +57,9 @@ class TestCarModel(unittest.TestCase):
       except Exception:
         lr = None
 
+    print("LR", repr(lr))
     if lr is None:
-      raise Exception("Route not uploaded")
+      raise Exception("Route not found. Is it uploaded?")
 
     can_msgs = []
     fingerprint = {i: dict() for i in range(3)}
