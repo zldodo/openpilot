@@ -149,16 +149,18 @@ class CarKalman(KalmanFilter):
 
     gen_code(generated_dir, name, f_sym, dt, state_sym, obs_eqs, dim_state, dim_state, global_vars=global_vars)
 
-  def __init__(self, generated_dir, steer_ratio=15, stiffness_factor=1, angle_offset=0):  # pylint: disable=super-init-not-called
+  def __init__(self, generated_dir, steer_ratio=15, stiffness_factor=1, angle_offset=0, x_init_vals=None):  # pylint: disable=super-init-not-called
     dim_state = self.initial_x.shape[0]
     dim_state_err = self.P_initial.shape[0]
-    x_init = self.initial_x
-    x_init[States.STEER_RATIO] = steer_ratio
-    x_init[States.STIFFNESS] = stiffness_factor
-    x_init[States.ANGLE_OFFSET] = angle_offset
-
+    if x_init_vals is None:
+      x_init = self.initial_x
+      x_init[States.STEER_RATIO] = steer_ratio
+      x_init[States.STIFFNESS] = stiffness_factor
+      x_init[States.ANGLE_OFFSET] = angle_offset
+    else:
+      x_init = x_init_vals
     # init filter
-    self.filter = EKF_sym(generated_dir, self.name, self.Q, self.initial_x, self.P_initial, dim_state, dim_state_err, global_vars=self.global_vars, logger=cloudlog)
+    self.filter = EKF_sym(generated_dir, self.name, self.Q, x_init, self.P_initial, dim_state, dim_state_err, global_vars=self.global_vars, logger=cloudlog)
 
 
 if __name__ == "__main__":
