@@ -110,8 +110,10 @@ function tici_init {
 
   # TODO: move this to agnos
   # network manager config
-  nmcli connection modify --temporary lte gsm.auto-config yes
+  nmcli connection modify --temporary lte gsm.auto-config no
+  nmcli connection modify --temporary lte gsm.apn internet
   nmcli connection modify --temporary lte gsm.home-only yes
+
   sudo rm -f /data/etc/NetworkManager/system-connections/*.nmmeta
 
   # set success flag for current boot slot
