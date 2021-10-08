@@ -112,6 +112,8 @@ class Planner():
     longitudinalPlan.processingDelay = (plan_send.logMonoTime / 1e9) - sm.logMonoTime['modelV2']
 
     longitudinalPlan.speeds = [float(x) for x in self.v_desired_trajectory]
+    if longitudinalPlan.speeds[1] - longitudinalPlan.speeds[0] > 0.0 and longitudinalPlan.accels[0] < 0.0:
+      print('SOMETHING IS UP')
     longitudinalPlan.accels = [float(x) for x in self.a_desired_trajectory]
     longitudinalPlan.jerks = [float(x) for x in self.j_desired_trajectory]
 

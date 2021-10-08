@@ -15,7 +15,7 @@ original_segments = [
   ("HYUNDAI", "02c45f73a2e5c6e9|2021-01-01--19-08-22--1"),     # HYUNDAI.SONATA
   ("TOYOTA", "0982d79ebb0de295|2021-01-04--17-13-21--13"),     # TOYOTA.PRIUS (INDI)
   ("TOYOTA2", "0982d79ebb0de295|2021-01-03--20-03-36--6"),     # TOYOTA.RAV4  (LQR)
-  ("HONDA", "eb140f119469d9ab|2021-06-12--10-46-24--27"),      # HONDA.CIVIC (NIDEC)
+  ("HONDA", "4d5e075821d0d877|2021-10-07--10-53-28--5"),      # HONDA.CIVIC (NIDEC)
   ("HONDA2", "7d2244f34d1bbcda|2021-06-25--12-25-37--26"),     # HONDA.ACCORD (BOSCH)
   ("CHRYSLER", "4deb27de11bee626|2021-02-20--11-28-55--8"),    # CHRYSLER.PACIFICA
   ("SUBARU", "4d70bc5e608678be|2021-01-15--17-02-04--5"),      # SUBARU.IMPREZA
@@ -33,7 +33,7 @@ segments = [
   ("TOYOTA", "1d6dfff4b6098f01|2021-07-26--07-56-21--2"),
   ("TOYOTA2", "fakedata|2021-07-09--16-03-56--0"),
   ("TOYOTA3", "f7d7e3538cda1a2a|2021-08-16--08-55-34--6"),     # TOYOTA.COROLLA_TSS2
-  ("HONDA", "fakedata|2021-07-09--16-05-07--0"),
+  ("HONDA", "4d5e075821d0d877|2021-10-07--10-53-28--5"),
   ("HONDA2", "fakedata|2021-07-09--16-08-28--0"),
   ("CHRYSLER", "fakedata|2021-07-09--16-09-39--0"),
   ("SUBARU", "fakedata|2021-07-09--16-10-50--0"),
