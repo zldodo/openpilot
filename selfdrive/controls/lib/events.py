@@ -617,11 +617,6 @@ EVENTS: Dict[int, Dict[str, Union[Alert, Callable[[Any, messaging.SubMaster, boo
     ET.NO_ENTRY: NoEntryAlert("System Overheated"),
   },
 
-  EventName.wrongGear: {
-    ET.SOFT_DISABLE: SoftDisableAlert("Gear not D"),
-    ET.NO_ENTRY: NoEntryAlert("Gear not D"),
-  },
-
   # This alert is thrown when the calibration angles are outside of the acceptable range.
   # For example if the device is pointed too much to the left or the right.
   # Usually this can only be solved by removing the mount from the windshield completely,
@@ -723,6 +718,11 @@ EVENTS: Dict[int, Dict[str, Union[Alert, Callable[[Any, messaging.SubMaster, boo
     ET.IMMEDIATE_DISABLE: ImmediateDisableAlert("Cruise Faulted"),
     ET.PERMANENT: NormalPermanentAlert("Cruise Faulted", ""),
     ET.NO_ENTRY: NoEntryAlert("Cruise Faulted"),
+  },
+
+  EventName.wrongGear: {
+    ET.IMMEDIATE_DISABLE: ImmediateDisableAlert("Gear not D"),
+    ET.NO_ENTRY: NoEntryAlert("Gear not D"),
   },
 
   EventName.controlsMismatch: {
