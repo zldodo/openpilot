@@ -82,3 +82,5 @@ models/*.thneed
 build/
 
 !**/.gitkeep
+
+ubuntu20.04/.vagrant
